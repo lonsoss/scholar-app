@@ -15,11 +15,11 @@ import { coefficient } from '../api/subjects';
  *
  *        moyenne generale = Somme(moyenne_matiere x coef) / Somme(coef)
  *
- * Les notes du backend sont sur 100 (ex. 85.5, 92.0), pas sur 20 : les seuils
- * de mention ci-dessous sont donc exprimes sur 100.
+ * Les notes sont sur 20. Le backend stocke un simple DOUBLE sans contrainte de
+ * borne : c'est donc l'application qui valide la plage 0-20 a la saisie.
  * ---------------------------------------------------------------------- */
 
-export const NOTE_MAX = 100;
+export const NOTE_MAX = 20;
 
 /**
  * Construit le relevé d'un etudiant.
@@ -76,14 +76,13 @@ export function construireReleve(subjects, scores) {
   return { lignes, matieresManquantes, complet, moyenneGenerale };
 }
 
-/** Mention correspondant a une moyenne sur 100. */
+/** Mention correspondant a une moyenne sur 20 (bareme francais). */
 export function mention(moyenne) {
   if (moyenne === null || moyenne === undefined) return '';
-  if (moyenne >= 90) return 'Excellent';
-  if (moyenne >= 80) return 'Tres bien';
-  if (moyenne >= 70) return 'Bien';
-  if (moyenne >= 60) return 'Assez bien';
-  if (moyenne >= 50) return 'Passable';
+  if (moyenne >= 16) return 'Tres bien';
+  if (moyenne >= 14) return 'Bien';
+  if (moyenne >= 12) return 'Assez bien';
+  if (moyenne >= 10) return 'Passable';
   return 'Insuffisant';
 }
 

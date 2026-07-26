@@ -168,8 +168,13 @@ Codes : `200` succès · `201` création · `400` champs requis manquants · `40
 
 ### Calcul de la moyenne du relevé
 
+- **Notes sur 20.** Le backend stocke un `DOUBLE` sans borne : c'est l'application qui valide la
+  plage 0–20 à la saisie. Attention, `DataInitializer` insère des notes d'exemple sur 100
+  (85.5 et 92.0) quand la base est vide — elles réapparaîtront à chaque réinitialisation et sont
+  à corriger.
 - Moyenne des différents examens d'une matière, **puis** moyenne pondérée par `credits` :
   `Σ(moyenne_matière × credits) / Σ(credits)`
+- Mentions au barème français : ≥16 Très bien · ≥14 Bien · ≥12 Assez bien · ≥10 Passable.
 - Le bouton **« Télécharger le relevé »** ne s'active que lorsque l'étudiant a au moins une note
   dans **chaque** matière ; sinon il reste désactivé et les matières manquantes sont affichées.
 - Export PDF via `expo-print`, puis partage/enregistrement via `expo-sharing`.

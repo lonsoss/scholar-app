@@ -156,7 +156,7 @@ export default function ScoreFormScreen({ navigation, route }) {
         label={`Note (sur ${NOTE_MAX}) *`}
         valeur={score}
         onChangeText={setScore}
-        placeholder="85.5"
+        placeholder="15.5"
         clavier="numeric"
         erreur={erreurs.score}
       />
