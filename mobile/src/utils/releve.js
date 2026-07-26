@@ -1,5 +1,3 @@
-import { coefficient } from '../api/subjects';
-
 /* ------------------------------------------------------------------------
  * CALCUL DU RELEVE DE NOTES
  * ------------------------------------------------------------------------
@@ -20,6 +18,16 @@ import { coefficient } from '../api/subjects';
  * ---------------------------------------------------------------------- */
 
 export const NOTE_MAX = 20;
+
+/**
+ * Coefficient d'une matiere = son nombre de credits.
+ * Repli sur 1 si la valeur est absente ou invalide, pour ne jamais casser le
+ * calcul de la moyenne (une somme de coefficients nulle donnerait NaN).
+ */
+export function coefficient(subject) {
+  const c = Number(subject && subject.credits);
+  return Number.isFinite(c) && c > 0 ? c : 1;
+}
 
 /**
  * Construit le relevé d'un etudiant.

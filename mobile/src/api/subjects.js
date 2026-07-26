@@ -32,13 +32,3 @@ export async function updateSubject(id, subject) {
 export async function deleteSubject(id) {
   await client.delete(`/subjects/${id}`);
 }
-
-/**
- * Coefficient d'une matiere = son nombre de credits.
- * Repli sur 1 si la valeur est absente ou invalide, pour ne jamais casser le
- * calcul de la moyenne (une division par zero donnerait NaN).
- */
-export function coefficient(subject) {
-  const c = Number(subject && subject.credits);
-  return Number.isFinite(c) && c > 0 ? c : 1;
-}

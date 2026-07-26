@@ -5,7 +5,9 @@
       "Bash(break)",
       "Bash(L=\"C:/Users/lenov/AppData/Local/npm-cache/_logs/2026-07-26T23_12_01_578Z-debug-0.log\"; grep -nE \"Invalid Version|error|stack\" \"$L\" 2>/dev/null | head -25)",
       "Read(//c/Users/lenov/AppData/Local/npm-cache/_logs/**)",
-      "Bash(node -e ' *)"
+      "Bash(node -e ' *)",
+      "Bash(curl -sS -o /dev/null --max-time 4 \"http://localhost:8081\")",
+      "Bash(curl -sS --max-time 300 \"http://localhost:8081/index.bundle?platform=web&dev=true\" -o \"C:/Users/lenov/AppData/Local/Temp/claude/c--Users-lenov-Desktop-scholar-app/b4bcd109-3cf2-4772-95b8-196e70a052b9/scratchpad/web.bundle\" -w \"HTTP %{http_code}, %{size_download} octets\\\\n\")"
     ]
   }
 }
