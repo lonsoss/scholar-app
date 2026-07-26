@@ -1,0 +1,33 @@
+# Le backend est le depot du prof (github.com/EnnachatRedwan/scholar-rest-soap).
+# On ne le versionne PAS ici : il conserve son propre .git et reste intact.
+# Voir README.md pour la procedure de demarrage.
+backend/
+
+# Node / Expo
+node_modules/
+.expo/
+.expo-shared/
+dist/
+web-build/
+*.log
+npm-debug.*
+yarn-error.log
+
+# Variables d'environnement
+.env
+.env.local
+.env.*.local
+
+# Build natif
+*.jks
+*.p8
+*.p12
+*.key
+*.mobileprovision
+*.orig.*
+
+# OS / IDE
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
