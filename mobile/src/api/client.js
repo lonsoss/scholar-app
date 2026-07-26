@@ -1,26 +1,38 @@
 import axios from 'axios';
+import { Platform } from 'react-native';
 
 /* ------------------------------------------------------------------------
  * ADRESSE DU BACKEND
  * ------------------------------------------------------------------------
- * ATTENTION : sur un telephone ou un emulateur, "localhost" designe
- * l'appareil lui-meme, PAS la machine de developpement. Mettre
- * http://localhost:8080 ici donnerait donc une erreur reseau sur mobile.
- * Il faut utiliser l'IP LAN de la machine qui fait tourner WildFly.
+ * Point crucial : "localhost" ne designe pas la meme machine selon l'endroit
+ * ou tourne l'application.
  *
- * Comment trouver cette IP ?
+ *   - Dans le navigateur (npm run web), le code s'execute sur la machine de
+ *     developpement : "localhost" pointe bien vers WildFly.
+ *
+ *   - Sur un telephone ou un emulateur, le code s'execute sur l'APPAREIL :
+ *     "localhost" designe le telephone lui-meme, pas l'ordinateur. Il faut
+ *     donc l'adresse IP de la machine sur le reseau local.
+ *
+ * On choisit donc l'hote selon la plateforme, via le module Platform de
+ * React Native.
+ *
+ * Comment trouver l'IP LAN de la machine ?
  *   - Windows : ouvrir un terminal, taper `ipconfig` et relever la ligne
  *     "Adresse IPv4" de la carte Wi-Fi (ex. 192.168.100.2).
  *   - C'est aussi l'IP affichee par Metro au demarrage, dans l'URL du type
  *     exp://192.168.x.x:8081.
  *
- * Cote serveur : WildFly n'ecoute par defaut que sur 127.0.0.1, il est donc
- * injoignable depuis le reseau. Le demarrer avec :
+ * ATTENTION cote serveur : WildFly n'ecoute par defaut que sur 127.0.0.1, il
+ * est donc injoignable depuis le reseau meme avec la bonne IP. Pour tester
+ * depuis un telephone, le demarrer avec :
  *     standalone.bat -b 0.0.0.0
  * ---------------------------------------------------------------------- */
-const HOST = '192.168.100.2'; // <-- a remplacer si l'IP de la machine change
+const HOST_LAN = '192.168.100.2'; // <-- a remplacer si l'IP de la machine change
 const PORT = 8080;
 const CONTEXTE = 'school-rest-jax-rs';
+
+const HOST = Platform.OS === 'web' ? 'localhost' : HOST_LAN;
 
 export const BASE_URL = `http://${HOST}:${PORT}/${CONTEXTE}/api`;
 

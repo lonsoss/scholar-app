@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm ls *)",
+      "Bash(break)",
+      "Bash(L=\"C:/Users/lenov/AppData/Local/npm-cache/_logs/2026-07-26T23_12_01_578Z-debug-0.log\"; grep -nE \"Invalid Version|error|stack\" \"$L\" 2>/dev/null | head -25)",
+      "Read(//c/Users/lenov/AppData/Local/npm-cache/_logs/**)",
+      "Bash(node -e ' *)"
+    ]
+  }
+}

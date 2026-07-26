@@ -1,3 +1,8 @@
+// Doit rester la TOUTE PREMIERE ligne du point d'entree : react-navigation en
+// mode stack s'appuie sur react-native-gesture-handler pour les gestes de
+// retour, et cette bibliotheque doit etre chargee avant tout composant.
+import 'react-native-gesture-handler';
+
 import { registerRootComponent } from 'expo';
 
 import App from './App';
