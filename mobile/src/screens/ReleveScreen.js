@@ -1,5 +1,5 @@
 import { useCallback, useLayoutEffect, useState } from 'react';
-import { Alert, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Platform, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
 import * as Print from 'expo-print';
 import * as Sharing from 'expo-sharing';
@@ -12,6 +12,7 @@ import Bouton from '../components/Bouton';
 import Loader from '../components/Loader';
 import { construireReleve, formaterNote, mention, NOTE_MAX } from '../utils/releve';
 import { construireHtmlReleve } from '../utils/pdfReleve';
+import { alerter } from '../utils/dialogues';
 import { couleurs, espacements, rayon } from '../theme';
 
 /* ------------------------------------------------------------------------
@@ -85,6 +86,13 @@ export default function ReleveScreen({ navigation, route }) {
         dateEdition: new Date().toLocaleDateString('fr-FR'),
       });
 
+      if (Platform.OS === 'web') {
+        // Sur navigateur, printToFileAsync n'existe pas : on ouvre la boite
+        // d'impression, qui propose "Enregistrer au format PDF".
+        await Print.printAsync({ html });
+        return;
+      }
+
       // 1. expo-print transforme le HTML en fichier PDF et renvoie son chemin
       const { uri } = await Print.printToFileAsync({ html });
 
@@ -98,14 +106,10 @@ export default function ReleveScreen({ navigation, route }) {
           UTI: 'com.adobe.pdf',
         });
       } else {
-        // Cas du navigateur (npm run web) : le partage systeme n'existe pas
-        Alert.alert(
-          'PDF genere',
-          `Le partage n'est pas disponible sur cette plateforme.\n\nFichier : ${uri}`
-        );
+        alerter('PDF genere', `Le partage n'est pas disponible ici.\n\nFichier : ${uri}`);
       }
     } catch (e) {
-      Alert.alert('Erreur', `Impossible de generer le PDF.\n\n${e.message}`);
+      alerter('Erreur', `Impossible de generer le PDF.\n\n${e.message}`);
     } finally {
       setGeneration(false);
     }

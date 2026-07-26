@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useLayoutEffect, useState } from 'react';
-import { Alert, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { ScrollView, StyleSheet, Text, View } from 'react-native';
 
 import { createScore, updateScore } from '../api/scores';
 import { getStudents, nomComplet } from '../api/students';
@@ -9,6 +9,7 @@ import Bouton from '../components/Bouton';
 import ChampTexte from '../components/ChampTexte';
 import Loader from '../components/Loader';
 import Selecteur from '../components/Selecteur';
+import { alerter } from '../utils/dialogues';
 import { NOTE_MAX } from '../utils/releve';
 import { couleurs, espacements } from '../theme';
 
@@ -113,7 +114,7 @@ export default function ScoreFormScreen({ navigation, route }) {
       }
       navigation.goBack();
     } catch (e) {
-      Alert.alert('Erreur', messageErreur(e));
+      alerter('Erreur', messageErreur(e));
     } finally {
       setEnvoi(false);
     }

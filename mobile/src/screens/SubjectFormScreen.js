@@ -1,10 +1,11 @@
 import { useLayoutEffect, useState } from 'react';
-import { Alert, ScrollView, StyleSheet, View } from 'react-native';
+import { ScrollView, StyleSheet, View } from 'react-native';
 
 import { createSubject, updateSubject } from '../api/subjects';
 import { messageErreur } from '../api/client';
 import Bouton from '../components/Bouton';
 import ChampTexte from '../components/ChampTexte';
+import { alerter } from '../utils/dialogues';
 import { couleurs, espacements } from '../theme';
 
 /* Ecran FORMULAIRE des matieres — creation et modification.
@@ -72,7 +73,7 @@ export default function SubjectFormScreen({ navigation, route }) {
     } catch (e) {
       // Le code de la matiere est UNIQUE en base : un doublon renverra une
       // erreur serveur, que messageErreur() rendra lisible.
-      Alert.alert('Erreur', messageErreur(e));
+      alerter('Erreur', messageErreur(e));
     } finally {
       setEnvoi(false);
     }

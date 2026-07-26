@@ -1,5 +1,5 @@
 import { useCallback, useState } from 'react';
-import { Alert, FlatList, StyleSheet, Text, View } from 'react-native';
+import { FlatList, StyleSheet, Text, View } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
 
 import { deleteStudent, getStudents } from '../api/students';
@@ -7,6 +7,7 @@ import { messageErreur } from '../api/client';
 import Bouton from '../components/Bouton';
 import CarteListe from '../components/CarteListe';
 import Loader from '../components/Loader';
+import { alerter, confirmer } from '../utils/dialogues';
 import { couleurs, espacements } from '../theme';
 
 /* Ecran LISTE des etudiants (le "R" de CRUD : Read).
@@ -47,24 +48,17 @@ export default function StudentsListScreen({ navigation }) {
   );
 
   function confirmerSuppression(etudiant) {
-    Alert.alert(
+    confirmer(
       'Supprimer',
       `Supprimer ${etudiant.firstName} ${etudiant.lastName} ?\n\nAttention : ses notes ne seront pas supprimees automatiquement par le backend.`,
-      [
-        { text: 'Annuler', style: 'cancel' },
-        {
-          text: 'Supprimer',
-          style: 'destructive',
-          onPress: async () => {
-            try {
-              await deleteStudent(etudiant.id);
-              charger();
-            } catch (e) {
-              Alert.alert('Erreur', messageErreur(e));
-            }
-          },
-        },
-      ]
+      async () => {
+        try {
+          await deleteStudent(etudiant.id);
+          charger();
+        } catch (e) {
+          alerter('Erreur', messageErreur(e));
+        }
+      }
     );
   }
 

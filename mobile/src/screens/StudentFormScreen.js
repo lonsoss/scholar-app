@@ -1,10 +1,11 @@
 import { useLayoutEffect, useState } from 'react';
-import { Alert, ScrollView, StyleSheet, View } from 'react-native';
+import { ScrollView, StyleSheet, View } from 'react-native';
 
 import { createStudent, updateStudent } from '../api/students';
 import { messageErreur } from '../api/client';
 import Bouton from '../components/Bouton';
 import ChampTexte from '../components/ChampTexte';
+import { alerter } from '../utils/dialogues';
 import { couleurs, espacements } from '../theme';
 
 /* Ecran FORMULAIRE des etudiants — sert a la CREATION et a la MODIFICATION.
@@ -76,7 +77,7 @@ export default function StudentFormScreen({ navigation, route }) {
       // On revient a la liste : son useFocusEffect la rechargera toute seule.
       navigation.goBack();
     } catch (e) {
-      Alert.alert('Erreur', messageErreur(e));
+      alerter('Erreur', messageErreur(e));
     } finally {
       setEnvoi(false);
     }

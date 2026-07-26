@@ -1,5 +1,5 @@
 import { useCallback, useState } from 'react';
-import { Alert, FlatList, StyleSheet, Text, View } from 'react-native';
+import { FlatList, StyleSheet, Text, View } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
 
 import { deleteSubject, getSubjects } from '../api/subjects';
@@ -7,6 +7,7 @@ import { messageErreur } from '../api/client';
 import Bouton from '../components/Bouton';
 import CarteListe from '../components/CarteListe';
 import Loader from '../components/Loader';
+import { alerter, confirmer } from '../utils/dialogues';
 import { couleurs, espacements } from '../theme';
 
 /* Ecran LISTE des matieres.
@@ -38,24 +39,17 @@ export default function SubjectsListScreen({ navigation }) {
   );
 
   function confirmerSuppression(matiere) {
-    Alert.alert(
+    confirmer(
       'Supprimer',
       `Supprimer la matiere ${matiere.name} ?\n\nLes notes rattachees a cette matiere ne seront pas supprimees automatiquement.`,
-      [
-        { text: 'Annuler', style: 'cancel' },
-        {
-          text: 'Supprimer',
-          style: 'destructive',
-          onPress: async () => {
-            try {
-              await deleteSubject(matiere.id);
-              charger();
-            } catch (e) {
-              Alert.alert('Erreur', messageErreur(e));
-            }
-          },
-        },
-      ]
+      async () => {
+        try {
+          await deleteSubject(matiere.id);
+          charger();
+        } catch (e) {
+          alerter('Erreur', messageErreur(e));
+        }
+      }
     );
   }
 
