@@ -12,7 +12,17 @@
       "Bash(curl -sS -o /dev/null -w \"GET /students -> HTTP %{http_code}\\\\n\" --max-time 8 \"http://localhost:8080/school-rest-jax-rs/api/students\")",
       "Bash(curl -sS -i -H \"Origin: http://localhost:8081\" --max-time 8 \"http://localhost:8080/school-rest-jax-rs/api/students\")",
       "Bash(node \"C:/Users/lenov/AppData/Local/Temp/claude/c--Users-lenov-Desktop-scholar-app/b4bcd109-3cf2-4772-95b8-196e70a052b9/scratchpad/imports.js\")",
-      "Bash(curl -sS --max-time 300 -o /dev/null -w \"bundle web : HTTP %{http_code}, %{size_download} octets en %{time_total}s\\\\n\" \"http://localhost:8081/index.bundle?platform=web&dev=true\")"
+      "Bash(curl -sS --max-time 300 -o /dev/null -w \"bundle web : HTTP %{http_code}, %{size_download} octets en %{time_total}s\\\\n\" \"http://localhost:8081/index.bundle?platform=web&dev=true\")",
+      "Bash(curl -sS -o /dev/null -w \"http://192.168.100.2:8080/.../students -> HTTP %{http_code}\\\\n\" --max-time 8 \"http://192.168.100.2:8080/school-rest-jax-rs/api/students\")",
+      "Bash(grep -vE \"^\\\\s*$\")",
+      "Bash(curl -sS -o /dev/null -w \"http://192.168.100.2:8081 -> HTTP %{http_code}\\\\n\" --max-time 8 \"http://192.168.100.2:8081\")",
+      "Bash(curl -sS --max-time 15 -H \"expo-platform: android\" \"http://192.168.100.2:8081\")",
+      "Bash(curl -sS -o /dev/null -w \"http://192.168.100.2:8080 -> HTTP %{http_code}\\\\n\" --max-time 8 \"http://192.168.100.2:8080/school-rest-jax-rs/api/students\")",
+      "PowerShell(Get-NetTCPConnection -State Listen -LocalPort 8081,8080 -ErrorAction SilentlyContinue)",
+      "PowerShell(Get-NetFirewallProfile)",
+      "Bash(grep -viE \"^\\\\s*$\" \"C:/Users/lenov/AppData/Local/Temp/claude/c--Users-lenov-Desktop-scholar-app/b4bcd109-3cf2-4772-95b8-196e70a052b9/tasks/bgkhkvmgx.output\")",
+      "Read(//c/Users/lenov/AppData/Local/npm-cache/_cacache/**)",
+      "Bash(npm view *)"
     ]
   }
 }

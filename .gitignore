@@ -13,6 +13,9 @@ web-build/
 npm-debug.*
 yarn-error.log
 
+# QR code de developpement genere localement (contient l'IP LAN de la machine)
+qr-expo.html
+
 # Variables d'environnement
 .env
 .env.local
