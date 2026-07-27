@@ -1,4 +1,5 @@
 import { formaterNote, mention, NOTE_MAX } from './releve';
+import { LOGO_ISGA } from './logoIsga';
 
 /* ------------------------------------------------------------------------
  * GENERATION DU HTML DU RELEVE
@@ -81,13 +82,19 @@ export function construireHtmlReleve({ etudiant, lignes, moyenneGenerale, dateEd
       padding: 40px;
       margin: 0;
     }
+    /* En-tete en deux colonnes : titre a gauche, logo a droite.
+       align-items: flex-start aligne le haut du logo sur le haut du titre. */
     .entete {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
       border-bottom: 3px solid #2563eb;
       padding-bottom: 16px;
       margin-bottom: 28px;
     }
     .entete h1 { font-size: 24px; margin: 0 0 6px; }
     .entete .date { color: #64748b; font-size: 12px; }
+    .entete .logo { height: 54px; width: auto; margin-left: 24px; }
     .identite {
       background: #f1f5f9;
       border-radius: 8px;
@@ -137,8 +144,11 @@ export function construireHtmlReleve({ etudiant, lignes, moyenneGenerale, dateEd
 </head>
 <body>
   <div class="entete">
-    <h1>Releve de notes</h1>
-    <div class="date">Edite le ${echapper(dateEdition)}</div>
+    <div>
+      <h1>Releve de notes</h1>
+      <div class="date">Edite le ${echapper(dateEdition)}</div>
+    </div>
+    <img class="logo" src="${LOGO_ISGA}" alt="ISGA" />
   </div>
 
   <div class="identite">
