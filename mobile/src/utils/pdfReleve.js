@@ -1,5 +1,10 @@
 import { formaterNote, mention, NOTE_MAX } from './releve';
 import { LOGO_ISGA } from './logoIsga';
+import { ETABLISSEMENT } from './etablissement';
+
+/* Rouge d'accent du document, echantillonne directement dans le logo :
+ * c'est la teinte majoritaire de ses pixels rouges opaques. */
+const COULEUR_ISGA = '#D91D36';
 
 /* ------------------------------------------------------------------------
  * GENERATION DU HTML DU RELEVE
@@ -73,98 +78,182 @@ export function construireHtmlReleve({ etudiant, lignes, moyenneGenerale, dateEd
 <html lang="fr">
 <head>
   <meta charset="utf-8" />
-  <title>Releve de notes - ${nom}</title>
+  <title>Relevé de notes — ${nom}</title>
   <style>
+    /* Format A4 avec marges d'impression. La page est un vrai document, pas
+       une capture d'ecran : on raisonne en millimetres. */
+    @page { size: A4; margin: 14mm 16mm; }
+
     * { box-sizing: border-box; }
+
     body {
-      font-family: -apple-system, "Helvetica Neue", Helvetica, Arial, sans-serif;
-      color: #0f172a;
-      padding: 40px;
+      font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+      color: #1a1a1a;
       margin: 0;
+      /* Laisse la place au pied de page fixe */
+      padding-bottom: 26mm;
+      font-size: 12px;
+      line-height: 1.45;
     }
-    /* En-tete en deux colonnes : titre a gauche, logo a droite.
-       align-items: flex-start aligne le haut du logo sur le haut du titre. */
+
+    /* ---- En-tete institutionnel : etablissement a gauche, logo a droite ---- */
     .entete {
       display: flex;
       justify-content: space-between;
       align-items: flex-start;
-      border-bottom: 3px solid #2563eb;
-      padding-bottom: 16px;
-      margin-bottom: 28px;
+      padding-bottom: 12px;
+      border-bottom: 2px solid ${COULEUR_ISGA};
     }
-    .entete h1 { font-size: 24px; margin: 0 0 6px; }
-    .entete .date { color: #64748b; font-size: 12px; }
-    .entete .logo { height: 54px; width: auto; margin-left: 24px; }
+    .etablissement .sigle {
+      font-size: 19px;
+      font-weight: 800;
+      letter-spacing: 1px;
+      color: ${COULEUR_ISGA};
+    }
+    .etablissement .intitule {
+      font-size: 11px;
+      color: #555;
+      margin-top: 1px;
+    }
+    .logo { height: 52px; width: auto; margin-left: 20px; }
+
+    /* ---- Titre du document ---- */
+    .titre {
+      text-align: center;
+      margin: 26px 0 22px;
+    }
+    .titre h1 {
+      font-size: 20px;
+      font-weight: 800;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      margin: 0;
+    }
+    .titre .filet {
+      width: 64px;
+      height: 3px;
+      background: ${COULEUR_ISGA};
+      margin: 8px auto 0;
+    }
+
+    /* ---- Identite de l'etudiant, en deux colonnes ---- */
     .identite {
-      background: #f1f5f9;
-      border-radius: 8px;
-      padding: 16px 20px;
-      margin-bottom: 28px;
+      border: 1px solid #d4d4d4;
+      border-left: 4px solid ${COULEUR_ISGA};
+      padding: 12px 16px;
+      margin-bottom: 22px;
+      display: flex;
+      justify-content: space-between;
     }
-    .identite .nom { font-size: 18px; font-weight: 700; }
-    .identite .champ { color: #64748b; font-size: 13px; margin-top: 4px; }
+    .identite .nom {
+      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 3px;
+    }
+    .identite .champ { font-size: 11px; color: #555; }
+    .identite .colonne-droite { text-align: right; }
+
+    /* ---- Tableau des notes ---- */
     table { width: 100%; border-collapse: collapse; }
-    th {
-      background: #2563eb;
+    thead th {
+      background: ${COULEUR_ISGA};
       color: #fff;
       text-align: left;
-      padding: 10px 12px;
-      font-size: 13px;
+      padding: 9px 12px;
+      font-size: 11px;
+      letter-spacing: 0.6px;
+      text-transform: uppercase;
     }
     th.centre, td.centre { text-align: center; }
-    td {
-      padding: 12px;
-      border-bottom: 1px solid #e2e8f0;
-      font-size: 14px;
+    tbody td {
+      padding: 10px 12px;
+      border-bottom: 1px solid #e4e4e4;
       vertical-align: top;
     }
-    td .code { color: #64748b; font-size: 11px; margin-top: 2px; }
-    td .detail { color: #64748b; font-size: 11px; margin-top: 6px; font-style: italic; }
-    td.note { font-weight: 700; }
+    /* Alternance de fond : lisibilite sur les tableaux longs */
+    tbody tr:nth-child(even) td { background: #fafafa; }
+    td .code { color: #777; font-size: 10px; margin-top: 2px; }
+    td .detail { color: #777; font-size: 10px; margin-top: 5px; font-style: italic; }
+    td.note { font-weight: 700; font-size: 13px; }
+
+    /* ---- Bilan ---- */
     .bilan {
-      margin-top: 28px;
-      background: #eff6ff;
-      border: 1px solid #bfdbfe;
-      border-radius: 8px;
-      padding: 20px;
+      margin-top: 20px;
+      border: 1px solid #d4d4d4;
+      border-top: 3px solid ${COULEUR_ISGA};
+      padding: 16px 20px;
       display: flex;
       justify-content: space-between;
       align-items: center;
     }
-    .bilan .libelle { font-size: 14px; color: #1e40af; font-weight: 600; }
-    .bilan .valeur { font-size: 28px; font-weight: 800; color: #1e40af; }
-    .bilan .mention { font-size: 13px; color: #1e40af; margin-top: 4px; }
-    .methode {
-      margin-top: 20px;
-      font-size: 11px;
-      color: #64748b;
-      line-height: 1.6;
+    .bilan .libelle {
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
     }
+    .bilan .mention { font-size: 12px; color: #555; margin-top: 3px; }
+    .bilan .valeur { font-size: 27px; font-weight: 800; color: ${COULEUR_ISGA}; }
+    .bilan .valeur .max { font-size: 14px; font-weight: 600; color: #555; }
+
+    .methode {
+      margin-top: 14px;
+      font-size: 9.5px;
+      color: #777;
+      line-height: 1.6;
+      font-style: italic;
+    }
+
+    /* ---- Pied de page, repete en bas de chaque page imprimee ---- */
+    .pied {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      text-align: center;
+      font-size: 9.5px;
+      color: #555;
+      border-top: 1px solid #d4d4d4;
+      padding-top: 7px;
+    }
+    .pied .nom-etab { font-weight: 700; color: ${COULEUR_ISGA}; }
   </style>
 </head>
 <body>
+
   <div class="entete">
-    <div>
-      <h1>Releve de notes</h1>
-      <div class="date">Edite le ${echapper(dateEdition)}</div>
+    <div class="etablissement">
+      <div class="sigle">${echapper(ETABLISSEMENT.sigle)}</div>
+      <div class="intitule">${echapper(ETABLISSEMENT.nom)}</div>
     </div>
-    <img class="logo" src="${LOGO_ISGA}" alt="ISGA" />
+    <img class="logo" src="${LOGO_ISGA}" alt="${echapper(ETABLISSEMENT.sigle)}" />
+  </div>
+
+  <div class="titre">
+    <h1>Relevé de notes</h1>
+    <div class="filet"></div>
   </div>
 
   <div class="identite">
-    <div class="nom">${nom}</div>
-    ${etudiant.email ? `<div class="champ">${echapper(etudiant.email)}</div>` : ''}
-    ${
-      etudiant.dateOfBirth
-        ? `<div class="champ">Ne(e) le ${echapper(etudiant.dateOfBirth)}</div>`
-        : ''
-    }
+    <div>
+      <div class="nom">${nom}</div>
+      ${etudiant.email ? `<div class="champ">${echapper(etudiant.email)}</div>` : ''}
+      ${
+        etudiant.dateOfBirth
+          ? `<div class="champ">Né(e) le ${echapper(etudiant.dateOfBirth)}</div>`
+          : ''
+      }
+    </div>
+    <div class="colonne-droite">
+      <div class="champ">N° étudiant : ${echapper(etudiant.id)}</div>
+      <div class="champ">Édité le ${echapper(dateEdition)}</div>
+    </div>
   </div>
 
   <table>
     <thead>
       <tr>
-        <th>Matiere</th>
+        <th>Matière</th>
         <th class="centre">Coef.</th>
         <th class="centre">Note</th>
       </tr>
@@ -174,17 +263,24 @@ export function construireHtmlReleve({ etudiant, lignes, moyenneGenerale, dateEd
 
   <div class="bilan">
     <div>
-      <div class="libelle">Moyenne generale ponderee</div>
+      <div class="libelle">Moyenne générale pondérée</div>
       ${laMention ? `<div class="mention">Mention : ${echapper(laMention)}</div>` : ''}
     </div>
-    <div class="valeur">${formaterNote(moyenneGenerale)} / ${NOTE_MAX}</div>
+    <div class="valeur">${formaterNote(moyenneGenerale)}<span class="max"> / ${NOTE_MAX}</span></div>
   </div>
 
   <div class="methode">
-    Methode de calcul : la moyenne de chaque matiere est la moyenne de ses
-    examens ; la moyenne generale est la somme des moyennes ponderees par les
-    coefficients, divisee par la somme des coefficients (${sommeCoefs}).
+    Méthode de calcul : la moyenne de chaque matière est la moyenne de ses
+    examens ; la moyenne générale est la somme des moyennes pondérées par les
+    coefficients, divisée par la somme des coefficients (${sommeCoefs}).
   </div>
+
+  <div class="pied">
+    <span class="nom-etab">${echapper(ETABLISSEMENT.sigle)}</span>
+    &nbsp;—&nbsp; ${echapper(ETABLISSEMENT.adresse)}
+    &nbsp;—&nbsp; ${echapper(ETABLISSEMENT.telephone)}
+  </div>
+
 </body>
 </html>`;
 }

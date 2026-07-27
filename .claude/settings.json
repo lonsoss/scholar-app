@@ -31,7 +31,8 @@
       "Bash(ls -la \"C:/Users/lenov/Documents/iSGA/2CI/PFA/Rapport\" 2>/dev/null | head -25)",
       "Read(//c/Users/lenov/Documents/iSGA/2CI/PFA/Rapport/**)",
       "Bash(node -e \"try{console.log\\(require\\('./node_modules/expo-splash-screen/package.json'\\).version\\)}catch\\(e\\){console.log\\('ABSENT'\\)}\")",
-      "Bash(node -e \"JSON.parse\\(require\\('fs'\\).readFileSync\\('app.json','utf8'\\)\\); console.log\\('app.json valide'\\)\")"
+      "Bash(node -e \"JSON.parse\\(require\\('fs'\\).readFileSync\\('app.json','utf8'\\)\\); console.log\\('app.json valide'\\)\")",
+      "Bash(curl -sS --max-time 300 -o /dev/null -w \"bundle iOS : HTTP %{http_code}, %{size_download} octets\\\\n\" \"http://localhost:8081/index.bundle?platform=ios&dev=true\")"
     ]
   }
 }
