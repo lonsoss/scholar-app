@@ -115,10 +115,10 @@ const styles = StyleSheet.create({
     margin: espacements.lg,
     marginTop: 0,
     padding: espacements.lg,
-    backgroundColor: '#fef2f2',
+    backgroundColor: couleurs.dangerFond,
     borderRadius: 10,
     borderWidth: 1,
-    borderColor: '#fecaca',
+    borderColor: couleurs.dangerBordure,
   },
   texteErreur: {
     color: couleurs.danger,

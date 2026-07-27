@@ -73,7 +73,7 @@ const styles = StyleSheet.create({
   sousTitre: { fontSize: 14, color: couleurs.texteSecondaire, marginTop: 2 },
   detail: { fontSize: 13, color: couleurs.texteSecondaire, marginTop: 4 },
   badge: {
-    backgroundColor: '#eff6ff',
+    backgroundColor: couleurs.primaireClair,
     borderRadius: 8,
     paddingHorizontal: espacements.md,
     paddingVertical: espacements.xs,

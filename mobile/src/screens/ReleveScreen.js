@@ -290,9 +290,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    backgroundColor: '#eff6ff',
+    backgroundColor: couleurs.primaireClair,
     borderWidth: 1,
-    borderColor: '#bfdbfe',
+    borderColor: couleurs.primaireBordure,
     borderRadius: rayon,
     padding: espacements.lg,
     marginTop: espacements.lg,
@@ -304,9 +304,9 @@ const styles = StyleSheet.create({
   bilanMax: { fontSize: 14, fontWeight: '600' },
 
   avertissement: {
-    backgroundColor: '#fffbeb',
+    backgroundColor: couleurs.alerteFond,
     borderWidth: 1,
-    borderColor: '#fde68a',
+    borderColor: couleurs.alerteBordure,
     borderRadius: rayon,
     padding: espacements.lg,
     marginTop: espacements.lg,
@@ -314,10 +314,10 @@ const styles = StyleSheet.create({
   avertissementTitre: {
     fontSize: 15,
     fontWeight: '700',
-    color: '#92400e',
+    color: couleurs.alerteTexte,
     marginBottom: espacements.xs,
   },
-  avertissementTexte: { fontSize: 14, color: '#92400e', lineHeight: 20 },
+  avertissementTexte: { fontSize: 14, color: couleurs.alerteTexte, lineHeight: 20 },
 
   boutonPdf: { marginTop: espacements.lg },
   methode: {

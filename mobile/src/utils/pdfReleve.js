@@ -86,15 +86,23 @@ export function construireHtmlReleve({ etudiant, lignes, moyenneGenerale, dateEd
 
     * { box-sizing: border-box; }
 
+    html, body { height: 100%; }
+
+    /* Colonne flex sur toute la hauteur de la page : le contenu s'etire
+       (flex: 1) et pousse le pied de page tout en bas, quelle que soit la
+       quantite de matieres. Plus fiable que position: fixed, que les moteurs
+       d'impression traitent de facon inegale. */
     body {
       font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
       color: #1a1a1a;
       margin: 0;
-      /* Laisse la place au pied de page fixe */
-      padding-bottom: 26mm;
+      min-height: 100%;
+      display: flex;
+      flex-direction: column;
       font-size: 12px;
       line-height: 1.45;
     }
+    .corps { flex: 1 0 auto; }
 
     /* ---- En-tete institutionnel : etablissement a gauche, logo a droite ---- */
     .entete {
@@ -204,22 +212,50 @@ export function construireHtmlReleve({ etudiant, lignes, moyenneGenerale, dateEd
       font-style: italic;
     }
 
-    /* ---- Pied de page, repete en bas de chaque page imprimee ---- */
+    /* ---- Zone de signature ---- */
+    .signatures {
+      margin-top: 26px;
+      display: flex;
+      justify-content: flex-end;
+    }
+    .signature {
+      width: 62mm;
+      text-align: center;
+    }
+    .signature .fonction {
+      font-size: 11px;
+      font-weight: 700;
+      margin-bottom: 2px;
+    }
+    .signature .lieu-date { font-size: 10px; color: #777; }
+    .signature .cadre {
+      margin-top: 6px;
+      height: 26mm;
+      border: 1px solid #c8c8c8;
+    }
+    .signature .legende {
+      font-size: 9px;
+      color: #999;
+      margin-top: 4px;
+      font-style: italic;
+    }
+
+    /* ---- Pied de page, pousse tout en bas par le flex du body ---- */
     .pied {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      right: 0;
+      flex-shrink: 0;
       text-align: center;
       font-size: 9.5px;
       color: #555;
       border-top: 1px solid #d4d4d4;
       padding-top: 7px;
+      margin-top: 18px;
     }
     .pied .nom-etab { font-weight: 700; color: ${COULEUR_ISGA}; }
   </style>
 </head>
 <body>
+
+  <div class="corps">
 
   <div class="entete">
     <div class="etablissement">
@@ -274,6 +310,17 @@ export function construireHtmlReleve({ etudiant, lignes, moyenneGenerale, dateEd
     examens ; la moyenne générale est la somme des moyennes pondérées par les
     coefficients, divisée par la somme des coefficients (${sommeCoefs}).
   </div>
+
+  <div class="signatures">
+    <div class="signature">
+      <div class="fonction">Le Directeur des études</div>
+      <div class="lieu-date">Rabat, le ${echapper(dateEdition)}</div>
+      <div class="cadre"></div>
+      <div class="legende">Signature et cachet de l'établissement</div>
+    </div>
+  </div>
+
+  </div><!-- /corps -->
 
   <div class="pied">
     <span class="nom-etab">${echapper(ETABLISSEMENT.sigle)}</span>

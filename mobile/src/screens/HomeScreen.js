@@ -1,4 +1,5 @@
-import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { couleurs, espacements, rayon } from '../theme';
 
 /* Menu d'accueil : point d'entree vers les trois entites et vers les relevés.
@@ -37,43 +38,50 @@ const ENTREES = [
 
 export default function HomeScreen({ navigation }) {
   return (
-    <ScrollView style={styles.ecran} contentContainerStyle={styles.contenu}>
-      <Text style={styles.titre}>Gestion scolaire</Text>
-      <Text style={styles.sousTitre}>
-        Etudiants, matieres et notes — connecte a l'API REST
-      </Text>
+    // Cet ecran n'a pas de barre de navigation : SafeAreaView decale son
+    // contenu sous l'encoche et la barre d'etat, sinon le logo passerait
+    // dessous. `edges={['top']}` limite la marge au haut de l'ecran.
+    <SafeAreaView style={styles.ecran} edges={['top']}>
+      <ScrollView contentContainerStyle={styles.contenu}>
+        {/* Le logo remplace le titre textuel. resizeMode="contain" preserve
+            les proportions quelle que soit la largeur de l'ecran. */}
+        <Image
+          source={require('../../assets/isga-logo.png')}
+          style={styles.logo}
+          resizeMode="contain"
+          accessibilityLabel="ISGA"
+        />
 
-      {ENTREES.map((entree) => (
-        <TouchableOpacity
-          key={entree.ecran}
-          style={styles.carte}
-          activeOpacity={0.8}
-          onPress={() => navigation.navigate(entree.ecran)}
-        >
-          <Text style={styles.icone}>{entree.icone}</Text>
-          <View style={styles.zoneTexte}>
-            <Text style={styles.carteTitre}>{entree.titre}</Text>
-            <Text style={styles.carteDescription}>{entree.description}</Text>
-          </View>
-          <Text style={styles.fleche}>›</Text>
-        </TouchableOpacity>
-      ))}
-    </ScrollView>
+        {ENTREES.map((entree) => (
+          <TouchableOpacity
+            key={entree.ecran}
+            style={styles.carte}
+            activeOpacity={0.8}
+            onPress={() => navigation.navigate(entree.ecran)}
+          >
+            <Text style={styles.icone}>{entree.icone}</Text>
+            <View style={styles.zoneTexte}>
+              <Text style={styles.carteTitre}>{entree.titre}</Text>
+              <Text style={styles.carteDescription}>{entree.description}</Text>
+            </View>
+            <Text style={styles.fleche}>›</Text>
+          </TouchableOpacity>
+        ))}
+      </ScrollView>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
   ecran: { flex: 1, backgroundColor: couleurs.fond },
   contenu: { padding: espacements.lg },
-  titre: {
-    fontSize: 26,
-    fontWeight: '800',
-    color: couleurs.texte,
-    marginBottom: espacements.xs,
-  },
-  sousTitre: {
-    fontSize: 15,
-    color: couleurs.texteSecondaire,
+  // alignSelf: 'center' centre le logo horizontalement, sans avoir a envelopper
+  // l'image dans une View supplementaire.
+  logo: {
+    width: '62%',
+    height: 92,
+    alignSelf: 'center',
+    marginTop: espacements.sm,
     marginBottom: espacements.xl,
   },
   carte: {

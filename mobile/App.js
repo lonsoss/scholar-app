@@ -1,5 +1,6 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
 
 import HomeScreen from './src/screens/HomeScreen';
@@ -38,58 +39,63 @@ const Stack = createStackNavigator();
 
 export default function App() {
   return (
-    <NavigationContainer>
-      <StatusBar style="light" />
-      <Stack.Navigator
-        initialRouteName="Accueil"
-        // Options communes a tous les ecrans : evite de repeter la mise en
-        // forme de l'en-tete sur chaque <Stack.Screen>.
-        screenOptions={{
-          headerStyle: { backgroundColor: couleurs.primaire },
-          headerTintColor: '#fff',
-          headerTitleStyle: { fontWeight: '700' },
-        }}
-      >
-        <Stack.Screen
-          name="Accueil"
-          component={HomeScreen}
-          options={{ title: 'Gestion scolaire' }}
-        />
+    <SafeAreaProvider>
+      <NavigationContainer>
+        <StatusBar style="light" />
+        <Stack.Navigator
+          initialRouteName="Accueil"
+          // Options communes a tous les ecrans : evite de repeter la mise en
+          // forme de l'en-tete sur chaque <Stack.Screen>.
+          screenOptions={{
+            headerStyle: { backgroundColor: couleurs.primaire },
+            headerTintColor: '#fff',
+            headerTitleStyle: { fontWeight: '700' },
+          }}
+        >
+          {/* Pas de barre de navigation sur l'accueil : le logo en tient lieu
+              d'en-tete. L'ecran gere lui-meme la zone sure (encoche, barre
+              d'etat) via SafeAreaView. */}
+          <Stack.Screen
+            name="Accueil"
+            component={HomeScreen}
+            options={{ headerShown: false }}
+          />
 
-        {/* --- Etudiants --- */}
-        <Stack.Screen
-          name="EtudiantsListe"
-          component={StudentsListScreen}
-          options={{ title: 'Etudiants' }}
-        />
-        {/* Pas de `title` ici : le formulaire pose lui-meme son titre selon
-            qu'il est en mode creation ou modification. */}
-        <Stack.Screen name="EtudiantFormulaire" component={StudentFormScreen} />
+          {/* --- Etudiants --- */}
+          <Stack.Screen
+            name="EtudiantsListe"
+            component={StudentsListScreen}
+            options={{ title: 'Etudiants' }}
+          />
+          {/* Pas de `title` ici : le formulaire pose lui-meme son titre selon
+              qu'il est en mode creation ou modification. */}
+          <Stack.Screen name="EtudiantFormulaire" component={StudentFormScreen} />
 
-        {/* --- Matieres --- */}
-        <Stack.Screen
-          name="MatieresListe"
-          component={SubjectsListScreen}
-          options={{ title: 'Matieres' }}
-        />
-        <Stack.Screen name="MatiereFormulaire" component={SubjectFormScreen} />
+          {/* --- Matieres --- */}
+          <Stack.Screen
+            name="MatieresListe"
+            component={SubjectsListScreen}
+            options={{ title: 'Matieres' }}
+          />
+          <Stack.Screen name="MatiereFormulaire" component={SubjectFormScreen} />
 
-        {/* --- Notes --- */}
-        <Stack.Screen
-          name="NotesListe"
-          component={ScoresListScreen}
-          options={{ title: 'Notes' }}
-        />
-        <Stack.Screen name="NoteFormulaire" component={ScoreFormScreen} />
+          {/* --- Notes --- */}
+          <Stack.Screen
+            name="NotesListe"
+            component={ScoresListScreen}
+            options={{ title: 'Notes' }}
+          />
+          <Stack.Screen name="NoteFormulaire" component={ScoreFormScreen} />
 
-        {/* --- Relevés --- */}
-        <Stack.Screen
-          name="RelevesListe"
-          component={RelevesListScreen}
-          options={{ title: 'Relevés de notes' }}
-        />
-        <Stack.Screen name="Releve" component={ReleveScreen} />
-      </Stack.Navigator>
-    </NavigationContainer>
+          {/* --- Relevés --- */}
+          <Stack.Screen
+            name="RelevesListe"
+            component={RelevesListScreen}
+            options={{ title: 'Relevés de notes' }}
+          />
+          <Stack.Screen name="Releve" component={ReleveScreen} />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </SafeAreaProvider>
   );
 }

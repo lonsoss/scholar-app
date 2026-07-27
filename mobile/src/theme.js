@@ -1,20 +1,40 @@
-/* Palette et espacements centralises.
- * Les valeurs sont regroupees ici pour eviter de repeter les memes codes
- * couleur dans chaque StyleSheet : un seul endroit a modifier pour changer
- * l'apparence de toute l'application.
- */
+/* ------------------------------------------------------------------------
+ * IDENTITE VISUELLE
+ * ------------------------------------------------------------------------
+ * La palette reprend les couleurs de l'ISGA. Le rouge et le gris ne sont pas
+ * choisis a l'oeil : le PNG du logo a ete decode et ce sont les deux teintes
+ * majoritaires de ses pixels opaques (respectivement 17 712 et 20 769 pixels).
+ *
+ * Regrouper ces valeurs ici evite de repeter des codes couleur dans chaque
+ * StyleSheet : un seul fichier a modifier pour changer l'apparence de toute
+ * l'application.
+ * ---------------------------------------------------------------------- */
 
 export const couleurs = {
-  primaire: '#2563eb',
-  primaireFonce: '#1e40af',
-  danger: '#dc2626',
-  succes: '#16a34a',
-  fond: '#f1f5f9',
-  carte: '#ffffff',
-  bordure: '#e2e8f0',
-  texte: '#0f172a',
-  texteSecondaire: '#64748b',
-  desactive: '#cbd5e1',
+  // Couleurs de marque
+  primaire: '#D91D36', // rouge ISGA
+  primaireFonce: '#A81529',
+  primaireClair: '#FDECEF', // fond teinte, pour les badges et surfaces mises en avant
+  primaireBordure: '#F5C2CB',
+
+  secondaire: '#5E5E5D', // gris ISGA
+
+  // Etats
+  danger: '#B91C1C',
+  dangerFond: '#FEF2F2',
+  dangerBordure: '#FECACA',
+  succes: '#15803D',
+  alerteFond: '#FFFBEB',
+  alerteBordure: '#FDE68A',
+  alerteTexte: '#92400E',
+
+  // Surfaces et texte
+  fond: '#F5F5F4',
+  carte: '#FFFFFF',
+  bordure: '#E3E3E1',
+  texte: '#1F1F1E',
+  texteSecondaire: '#6B6B69',
+  desactive: '#CFCFCC',
 };
 
 export const espacements = {
